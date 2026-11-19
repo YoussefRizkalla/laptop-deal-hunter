@@ -1,0 +1,106 @@
+name: Laptop Deal Monitor
+
+on:
+  schedule:
+    # Run every 20 minutes, 24/7
+    - cron: "*/20 * * * *"
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - "config.yaml"
+      - "src/**"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: laptop-deal-monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    outputs:
+      deploy_pages: ${{ steps.run_monitor.outputs.deploy_pages }}
+    steps:
+      - name: Checkout code (main)
+        uses: actions/checkout@v4
+
+      - name: Checkout persistent state branch (data)
+        shell: bash
+        run: |
+          git fetch origin data:refs/remotes/origin/data || true
+          if git show-ref --verify --quiet refs/remotes/origin/data; then
+            git worktree add data origin/data
+          else
+            git worktree add --orphan -b data data
+          fi
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run laptop deal monitor
+        id: run_monitor
+        env:
+          PYTHONPATH: src
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          BESTBUY_API_KEY: ${{ secrets.BESTBUY_API_KEY }}
+        run: |
+          DASH_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+          python -m laptop_hunter \
+            --config config.yaml \
+            --state data/state.json \
+            --site-dir site \
+            --dashboard-url "$DASH_URL"
+          echo "deploy_pages=true" >> "$GITHUB_OUTPUT"
+
+      - name: Persist updated state to data branch
+        shell: bash
+        run: |
+          cd data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          BRANCH_EXISTS=true
+          if ! git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
+            BRANCH_EXISTS=false
+          fi
+
+          if [ "${{ steps.run_monitor.outputs.state_changed }}" = "true" ] || [ "$BRANCH_EXISTS" = "false" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            git add state.json
+            if ! git diff --cached --quiet; then
+              git commit -m "data: update deals (${{ steps.run_monitor.outputs.matches_count }} matches, ${{ steps.run_monitor.outputs.alerts_sent }} alerts)"
+              git push origin HEAD:data
+            else
+              echo "No file diff in data/state.json; skipping push."
+            fi
+          else
+            echo "No meaningful deal or price changes; skipping data branch commit."
+          fi
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: monitor
+    if: needs.monitor.outputs.deploy_pages == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
