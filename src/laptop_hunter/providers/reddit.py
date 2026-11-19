@@ -1,0 +1,172 @@
+"""Reddit provider for r/LaptopDeals with JSON-first and Atom RSS fallback."""
+
+from __future__ import annotations
+
+from datetime import datetime, timezone
+import re
+from typing import Any
+import xml.etree.ElementTree as ET
+
+from bs4 import BeautifulSoup
+import httpx
+
+from laptop_hunter.models import ProviderRunResult, RawListing
+from laptop_hunter.providers.base import BaseProvider
+
+_URL_RE = re.compile(r"https?://[^\s<>\"'\)\]]+", re.I)
+_EXPIRED_FLAIR_RE = re.compile(r"\b(?:expired|out\s+of\s+stock|oos|dead|closed|meta|discussion|request)\b", re.I)
+_NON_DEAL_TITLE_RE = re.compile(r"^\s*(?:\[(?:request|discussion|meta|question)\]|weekly\s+request)", re.I)
+
+
+def _pick_deal_url(post_url: str, selftext: str, permalink: str) -> str:
+    """Prefer an external merchant URL over a reddit.com self-post permalink."""
+    if post_url and "reddit.com" not in post_url.lower() and "redd.it" not in post_url.lower():
+        return post_url
+    for match in _URL_RE.findall(selftext or ""):
+        lower = match.lower()
+        if "reddit.com" not in lower and "redd.it" not in lower and "imgur.com" not in lower:
+            return match.rstrip(".,)")
+    return permalink or post_url
+
+
+def parse_reddit_json(payload: dict[str, Any], subreddit: str) -> list[RawListing]:
+    """Parse Reddit listing JSON into RawListings."""
+    listings: list[RawListing] = []
+    children = ((payload or {}).get("data") or {}).get("children") or []
+    for child in children:
+        data = (child or {}).get("data") or {}
+        title = (data.get("title") or "").strip()
+        if not title or _NON_DEAL_TITLE_RE.search(title):
+            continue
+
+        flair = (data.get("link_flair_text") or "").strip()
+        if flair and _EXPIRED_FLAIR_RE.search(flair):
+            continue
+        if data.get("stickied") or data.get("over_18"):
+            continue
+
+        post_id = str(data.get("id") or "")
+        permalink = f"https://www.reddit.com{data.get('permalink', '')}" if data.get("permalink") else ""
+        selftext = (data.get("selftext") or "").strip()
+        deal_url = _pick_deal_url(data.get("url") or "", selftext, permalink)
+
+        created_utc = data.get("created_utc")
+        posted_at = (
+            datetime.fromtimestamp(float(created_utc), tz=timezone.utc).isoformat()
+            if created_utc
+            else None
+        )
+
+        thumbnail = data.get("thumbnail")
+        image_url = thumbnail if isinstance(thumbnail, str) and thumbnail.startswith("http") else None
+
+        listings.append(
+            RawListing(
+                provider="reddit",
+                external_id=f"{subreddit}:{post_id}",
+                title=title,
+                url=deal_url,
+                description=selftext[:1200],
+                image_url=image_url,
+                posted_at=posted_at,
+                condition_hint=flair or None,
+                upvotes=int(data.get("score")) if data.get("score") is not None else None,
+            )
+        )
+    return listings
+
+
+def parse_reddit_rss(xml_text: str, subreddit: str) -> list[RawListing]:
+    """Parse Reddit Atom RSS feed as a fallback when JSON API is rate-limited."""
+    listings: list[RawListing] = []
+    root = ET.fromstring(xml_text)
+    ns = {"atom": "http://www.w3.org/2005/Atom"}
+
+    for entry in root.findall("atom:entry", ns):
+        title_el = entry.find("atom:title", ns)
+        title = (title_el.text or "").strip() if title_el is not None else ""
+        if not title or _NON_DEAL_TITLE_RE.search(title):
+            continue
+
+        id_el = entry.find("atom:id", ns)
+        entry_id = (id_el.text or title).strip() if id_el is not None else title
+
+        link_el = entry.find("atom:link", ns)
+        permalink = link_el.attrib.get("href", "") if link_el is not None else ""
+
+        content_el = entry.find("atom:content", ns)
+        content_html = (content_el.text or "") if content_el is not None else ""
+        soup = BeautifulSoup(content_html, "html.parser")
+        text_body = soup.get_text(" ", strip=True)
+
+        external_url = ""
+        for anchor in soup.find_all("a", href=True):
+            href = str(anchor["href"])
+            lower = href.lower()
+            if href.startswith("http") and "reddit.com" not in lower and "redd.it" not in lower:
+                external_url = href
+                break
+
+        updated_el = entry.find("atom:updated", ns)
+        posted_at = (updated_el.text or "").strip() if updated_el is not None else None
+
+        listings.append(
+            RawListing(
+                provider="reddit",
+                external_id=f"{subreddit}:{entry_id}",
+                title=title,
+                url=external_url or permalink,
+                description=text_body[:1200],
+                posted_at=posted_at,
+            )
+        )
+    return listings
+
+
+class RedditProvider(BaseProvider):
+    """Fetch recent laptop deal posts from r/LaptopDeals."""
+
+    name = "reddit"
+
+    def fetch(
+        self,
+        client: httpx.Client,
+        provider_config: dict[str, Any],
+    ) -> tuple[list[RawListing], ProviderRunResult]:
+        subreddits = provider_config.get("subreddits") or ["LaptopDeals"]
+        limit = int(provider_config.get("limit", 60))
+        all_listings: list[RawListing] = []
+        notes: list[str] = []
+
+        for sub in subreddits:
+            json_url = f"https://www.reddit.com/r/{sub}/new.json?limit={limit}&raw_json=1"
+            rss_url = f"https://www.reddit.com/r/{sub}/new/.rss?limit={limit}"
+            headers = {"User-Agent": "LaptopDealHunter/0.1 (GitHub Actions deal monitor)"}
+
+            try:
+                resp = client.get(json_url, headers=headers)
+                if resp.status_code == 200:
+                    parsed = parse_reddit_json(resp.json(), sub)
+                    all_listings.extend(parsed)
+                    notes.append(f"r/{sub}: {len(parsed)} via JSON")
+                    continue
+                notes.append(f"r/{sub} JSON HTTP {resp.status_code}, trying RSS")
+            except Exception as exc:
+                notes.append(f"r/{sub} JSON error ({exc}), trying RSS")
+
+            try:
+                rss_resp = client.get(rss_url, headers=headers)
+                rss_resp.raise_for_status()
+                parsed = parse_reddit_rss(rss_resp.text, sub)
+                all_listings.extend(parsed)
+                notes.append(f"r/{sub}: {len(parsed)} via RSS")
+            except Exception as exc:
+                notes.append(f"r/{sub} RSS error ({exc})")
+
+        status = "ok" if all_listings else "error"
+        return all_listings, ProviderRunResult(
+            provider=self.name,
+            status=status,
+            listing_count=len(all_listings),
+            message="; ".join(notes),
+        )
