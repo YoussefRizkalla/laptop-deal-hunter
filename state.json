@@ -10,7 +10,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 1480.0,
       "model_key": "acer-predator-helios-neo-16|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -46,6 +46,50 @@
       "upvotes": null,
       "url": "https://slickdeals.net/f/20310123-1480-live-11-16-bjs-wholesale-acer-predator-helios-neo-16-gaming-laptop-intel-core-ultra-7-16gb-memory-1tb-ssd-nvidia-rtx-5070-graphics?utm_source=rss&utm_content=def&utm_medium=RSS2"
     },
+    "24748c7f9bcc200f": {
+      "alert_priority": 9,
+      "category": "match",
+      "current_price_usd": 3999.99,
+      "deal_id": "24748c7f9bcc200f",
+      "effective_target_usd": 2000.0,
+      "first_seen_at": "2026-11-19T17:26:11.470223+00:00",
+      "image_url": null,
+      "last_alerted_at": null,
+      "last_alerted_price_usd": null,
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
+      "lowest_price_usd": 3999.99,
+      "model_key": "alienware|rtx-5080|32gb|new",
+      "near_miss_reasons": [],
+      "price_history": [
+        {
+          "price_usd": 3999.99,
+          "ts": "2026-11-19T17:26:11.470223+00:00"
+        }
+      ],
+      "provider": "slickdeals",
+      "specs": {
+        "brand": "Alienware",
+        "condition": "new",
+        "cpu": "Ultra 9 290HX",
+        "discount_pct": null,
+        "gpu": "RTX 5080",
+        "model_name": "Alienware",
+        "msrp_usd": null,
+        "panel_type": null,
+        "price_usd": 3999.99,
+        "ram_gb": 32,
+        "refresh_hz": 300,
+        "resolution": "QHD+",
+        "screen_inches": null,
+        "ssd_gb": 2000,
+        "store": null
+      },
+      "store": "slickdeals",
+      "title": "Alienware 18 Area-51 Gaming Laptop, Intel Ultra 9 290HX | WQXGA 300Hz, NVIDIA RTX 5080, 32GB DDR5 RAM, 2TB NVMe SSD, Win 11 Home $3999.99",
+      "triggers": [],
+      "upvotes": null,
+      "url": "https://slickdeals.net/f/20344368-alienware-18-area-51-gaming-laptop-intel-ultra-9-290hx-wqxga-300hz-nvidia-rtx-5080-32gb-ddr5-ram-2tb-nvme-ssd-win-11-home-3999-99?utm_source=rss&utm_content=def&utm_medium=RSS2"
+    },
     "31689f972848cc87": {
       "alert_priority": 14,
       "category": "match",
@@ -56,7 +100,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 2849.99,
       "model_key": "lenovo-legion-pro-7-gen-10|rtx-5080|32gb|new",
       "near_miss_reasons": [],
@@ -100,7 +144,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 2499.99,
       "model_key": "acer-predator-helios-neo-16|rtx-5080|32gb|new",
       "near_miss_reasons": [],
@@ -144,7 +188,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 1700.0,
       "model_key": "hp|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -234,7 +278,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 1134.99,
       "model_key": "gigabyte|rtx-5070|16gb|open_box",
       "near_miss_reasons": [
@@ -280,7 +324,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 1549.99,
       "model_key": "asus-tuf-gaming-a16|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -327,7 +371,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 1819.99,
       "model_key": "lenovo-legion-pro-5i-gen-10|rtx-5070-ti|16gb|new",
       "near_miss_reasons": [
@@ -363,6 +407,52 @@
       "upvotes": null,
       "url": "https://slickdeals.net/f/20271477-legion-pro-5i-gen-10-16-qhd-240hz-oled-intel-ultra-7-251hx-rtx-5070-ti-16gb-ddr5-1tb-ssd-1819-99?utm_source=rss&utm_content=ht&utm_medium=RSS2"
     },
+    "7bc3d93f44400e14": {
+      "alert_priority": 3,
+      "category": "near_miss",
+      "current_price_usd": 1599.0,
+      "deal_id": "7bc3d93f44400e14",
+      "effective_target_usd": 1250.0,
+      "first_seen_at": "2026-11-19T17:26:11.470223+00:00",
+      "image_url": null,
+      "last_alerted_at": null,
+      "last_alerted_price_usd": null,
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
+      "lowest_price_usd": 1599.0,
+      "model_key": "gigabyte|rtx-5070|16gb|new",
+      "near_miss_reasons": [
+        "16GB RAM (< 32GB, upgradeable)"
+      ],
+      "price_history": [
+        {
+          "price_usd": 1599.0,
+          "ts": "2026-11-19T17:26:11.470223+00:00"
+        }
+      ],
+      "provider": "slickdeals",
+      "specs": {
+        "brand": "Gigabyte",
+        "condition": "new",
+        "cpu": "Core Ultra 9 185",
+        "discount_pct": null,
+        "gpu": "RTX 5070",
+        "model_name": "Gigabyte",
+        "msrp_usd": null,
+        "panel_type": null,
+        "price_usd": 1599.0,
+        "ram_gb": 16,
+        "refresh_hz": 165,
+        "resolution": "FHD+",
+        "screen_inches": 16.0,
+        "ssd_gb": 1000,
+        "store": null
+      },
+      "store": "slickdeals",
+      "title": "GIGABYTE Gaming A16 16\" 1920x1200 WUXGA 165Hz Laptop w/ Core Ultra 9 185, RTX 5070, 16GB DDR5 & 1TB SSD $1599 + Free Shipping",
+      "triggers": [],
+      "upvotes": null,
+      "url": "https://slickdeals.net/f/20343813-gigabyte-gaming-a16-16-1920x1200-wuxga-165hz-laptop-w-core-ultra-9-185-rtx-5070-16gb-ddr5-1tb-ssd-1599-free-shipping?utm_source=rss&utm_content=def&utm_medium=RSS2"
+    },
     "a94b882f8574a140": {
       "alert_priority": 3,
       "category": "match",
@@ -373,7 +463,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 2294.0,
       "model_key": "msi-crosshair-a16|rtx-5070|32gb|new",
       "near_miss_reasons": [],
@@ -417,7 +507,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 1599.99,
       "model_key": "acer|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -463,7 +553,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 1849.0,
       "model_key": "asus|rtx-5070|32gb|new",
       "near_miss_reasons": [],
@@ -507,7 +597,7 @@
       "image_url": "https://d.dlnws.com/64599/1795019698-product-trimmed.jpg?h=229&w=250",
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 1700.0,
       "model_key": "lenovo-legion-5i|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -553,7 +643,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 1261.99,
       "model_key": "asus-rog-zephyrus-g16|rtx-5070|16gb|open_box",
       "near_miss_reasons": [
@@ -599,7 +689,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 3819.99,
       "model_key": "asus-rog-zephyrus-g16|rtx-5090|32gb|new",
       "near_miss_reasons": [],
@@ -633,6 +723,53 @@
       "upvotes": null,
       "url": "https://slickdeals.net/f/20324943-asus-rog-zephyrus-g16-16-oled-2-5k-240hz-intel-ultra-9-285h-rtx-5090-32gb-ddr5-2tb-ssd-3819-99?utm_source=rss&utm_content=def&utm_medium=RSS2"
     },
+    "d420186dd36214c5": {
+      "alert_priority": 6,
+      "category": "near_miss",
+      "current_price_usd": 1599.0,
+      "deal_id": "d420186dd36214c5",
+      "effective_target_usd": 1550.0,
+      "first_seen_at": "2026-11-19T17:26:11.470223+00:00",
+      "image_url": null,
+      "last_alerted_at": null,
+      "last_alerted_price_usd": null,
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
+      "lowest_price_usd": 1599.0,
+      "model_key": "msi-vector-16|rtx-5070-ti|16gb|new",
+      "near_miss_reasons": [
+        "16GB RAM (< 32GB, upgradeable)",
+        "512GB SSD (< 1000GB, upgradeable)"
+      ],
+      "price_history": [
+        {
+          "price_usd": 1599.0,
+          "ts": "2026-11-19T17:26:11.470223+00:00"
+        }
+      ],
+      "provider": "slickdeals",
+      "specs": {
+        "brand": "MSI",
+        "condition": "new",
+        "cpu": "Intel Core Ultra 7",
+        "discount_pct": null,
+        "gpu": "RTX 5070 Ti",
+        "model_name": "MSI Vector 16",
+        "msrp_usd": null,
+        "panel_type": null,
+        "price_usd": 1599.0,
+        "ram_gb": 16,
+        "refresh_hz": null,
+        "resolution": null,
+        "screen_inches": 16.0,
+        "ssd_gb": 512,
+        "store": null
+      },
+      "store": "slickdeals",
+      "title": "MSI Vector 16 HX AI - 16\" Gaming Laptop - Intel Core Ultra 7-255HX - GeForce RTX 5070Ti - 16GB DDR5 RAM - 512GB NVMe SSD - Win 11 Home, A2XWHG-212US $1599",
+      "triggers": [],
+      "upvotes": null,
+      "url": "https://slickdeals.net/f/20341173-msi-vector-16-hx-ai-16-gaming-laptop-intel-core-ultra-7-255hx-geforce-rtx-5070ti-16gb-ddr5-ram-512gb-nvme-ssd-win-11-home-a2xwhg-212us-1599?utm_source=rss&utm_content=def&utm_medium=RSS2"
+    },
     "e4756e81247d7f9f": {
       "alert_priority": 14,
       "category": "match",
@@ -643,7 +780,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 2849.99,
       "model_key": "lenovo-legion-pro-7|rtx-5080|32gb|new",
       "near_miss_reasons": [],
@@ -687,7 +824,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 1366.99,
       "model_key": "asus-rog-zephyrus-g16|rtx-5070|16gb|open_box",
       "near_miss_reasons": [
@@ -738,7 +875,7 @@
         "date": "2026-11-19",
         "median_price_usd": 2849.99,
         "min_price_usd": 2499.99,
-        "sample_count": 3
+        "sample_count": 4
       }
     ],
     "RTX 5090": [
@@ -752,14 +889,14 @@
   },
   "last_provider_results": [
     {
-      "listing_count": 18,
-      "message": "18 recent unique listings across 2 mode(s) x 6 queries",
+      "listing_count": 20,
+      "message": "20 recent unique listings across 2 mode(s) x 6 queries",
       "provider": "slickdeals",
       "status": "ok"
     },
     {
-      "listing_count": 16,
-      "message": "16 listings from 1 feed(s)",
+      "listing_count": 20,
+      "message": "20 listings from 1 feed(s)",
       "provider": "dealnews",
       "status": "ok"
     },
@@ -782,44 +919,49 @@
       "status": "skipped"
     }
   ],
-  "last_run_at": "2026-11-19T08:08:05.094265+00:00",
+  "last_run_at": "2026-11-19T17:26:11.470223+00:00",
   "model_lows": {
     "acer-predator-helios-neo-16|rtx-5080|32gb|new": {
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 2499.99,
-      "samples": 2
+      "samples": 3
     },
     "acer|rtx-5070-ti|32gb|refurbished": {
       "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
       "lowest_price_usd": 1615.29,
       "samples": 2
     },
+    "alienware|rtx-5080|32gb|new": {
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
+      "lowest_price_usd": 3999.99,
+      "samples": 1
+    },
     "asus-rog-zephyrus-g16|rtx-5090|32gb|new": {
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 3819.99,
-      "samples": 2
+      "samples": 3
     },
     "asus|rtx-5070|32gb|new": {
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 1849.0,
-      "samples": 2
+      "samples": 3
     },
     "lenovo-legion-pro-7-gen-10|rtx-5080|32gb|new": {
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 2849.99,
-      "samples": 2
+      "samples": 3
     },
     "lenovo-legion-pro-7|rtx-5080|32gb|new": {
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 2849.99,
-      "samples": 2
+      "samples": 3
     },
     "msi-crosshair-a16|rtx-5070|32gb|new": {
-      "last_seen_at": "2026-11-19T08:08:05.094265+00:00",
+      "last_seen_at": "2026-11-19T17:26:11.470223+00:00",
       "lowest_price_usd": 2294.0,
-      "samples": 2
+      "samples": 3
     }
   },
-  "runs_count": 2,
+  "runs_count": 3,
   "version": 1
 }
