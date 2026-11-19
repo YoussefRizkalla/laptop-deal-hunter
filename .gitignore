@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Local runtime outputs & secrets
+.env
+.env.local
+data/
+site/
+*.sqlite
+*.db
+.DS_Store
+Thumbs.db

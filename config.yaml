@@ -1,0 +1,126 @@
+# Gaming Laptop Deal Hunter Configuration
+# Edit target prices, specs, or enabled sources here and push to `main`.
+
+specs:
+  # Minimum memory and storage required for strict Discord alerts.
+  min_ram_gb: 32
+  min_ssd_gb: 1000
+
+  # Optional hard budget ceiling in USD (null = no ceiling; rely on per-GPU targets).
+  max_price_usd: null
+
+  # Minimum acceptable GPUs (RTX 5070 or equivalent and higher) with "instant-buy"
+  # target prices in USD for brand-new 32GB/1TB+ configurations.
+  # Lower-tier GPUs (e.g., RTX 4060, 4070, 5060) are automatically ignored.
+  gpu_targets:
+    RTX 5070:
+      tier: 1
+      target_price_usd: 1250
+    RX 7900M:
+      tier: 1
+      target_price_usd: 1250
+    RX 9070M:
+      tier: 2
+      target_price_usd: 1350
+    RTX 4080:
+      tier: 2
+      target_price_usd: 1500
+    RTX 5070 Ti:
+      tier: 2
+      target_price_usd: 1550
+    RTX 5080:
+      tier: 3
+      target_price_usd: 2000
+    RTX 4090:
+      tier: 3
+      target_price_usd: 2050
+    RTX 5090:
+      tier: 4
+      target_price_usd: 2650
+
+  # Optional exclusions (empty by default - all brands and screen sizes included).
+  exclude_brands: []
+  exclude_keywords:
+    - "desktop"
+    - "pre-built"
+    - "prebuilt"
+    - "tower"
+    - "graphics card"
+    - "egpu"
+    - "gpu only"
+    - "bundle only"
+    - "monitor only"
+
+conditions:
+  # Allowed conditions: new, open_box, refurbished (used is excluded by default)
+  allowed:
+    - new
+    - open_box
+    - refurbished
+
+  # Open-box / refurbished listings must beat (target_price * multiplier) to trigger
+  # a target-beat alert. 0.90 means 10% cheaper than the brand-new target.
+  non_new_price_multiplier: 0.90
+
+alerts:
+  # Trigger an alert if discount off MSRP/list price is at least this percentage
+  # AND price is within max_target_overage_ratio of the GPU target price.
+  min_steep_discount_pct: 25.0
+  steep_discount_max_target_ratio: 1.15
+
+  # Alert when a deal hits a new all-time tracked low for its GPU tier or exact model
+  # (requires at least `historical_low_min_samples` prior tracked observations).
+  alert_on_historical_low: true
+  historical_low_min_samples: 3
+
+  # If a deal title omits RAM or SSD (never explicitly <32GB/<1TB), only alert Discord
+  # if its price is an extreme outlier (<= target_price * ratio). Otherwise it goes
+  # to the dashboard's "Near Misses" tab.
+  alert_unconfirmed_specs_if_extreme: true
+  unconfirmed_extreme_price_ratio: 0.85
+
+  # Anti-spam: only re-alert an already-notified deal if its price drops by at least
+  # min_redrop_usd OR min_redrop_pct.
+  min_redrop_usd: 25.0
+  min_redrop_pct: 3.0
+
+  # Maximum Discord embeds sent per run (highest priority deals first).
+  max_alerts_per_run: 10
+
+providers:
+  reddit:
+    enabled: true
+    subreddits:
+      - LaptopDeals
+    limit: 60
+
+  slickdeals:
+    enabled: true
+    # Search queries & laptop category RSS feeds
+    queries:
+      - "gaming laptop rtx 5070"
+      - "gaming laptop rtx 5080"
+      - "gaming laptop rtx 5090"
+      - "gaming laptop rtx 4080"
+      - "gaming laptop rtx 4090"
+      - "rtx 5070 ti laptop"
+
+  gaminglaptop:
+    enabled: true
+    url: "https://gaminglaptop.deals/"
+
+  bestbuy:
+    # Automatically activates when BESTBUY_API_KEY env var is set; skipped cleanly otherwise.
+    enabled: true
+    include_open_box: true
+    page_size: 50
+
+storage:
+  # Keep price history snapshots for up to 180 days.
+  history_retention_days: 180
+  # Mark a deal inactive on the dashboard if not seen for this many days.
+  stale_deal_days: 7
+
+dashboard:
+  title: "Gaming Laptop Deal Hunter"
+  subtitle: "Tracking RTX 5070+ • 32GB+ RAM • 1TB+ SSD deals across the web"
