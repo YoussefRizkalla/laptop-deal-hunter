@@ -6,15 +6,17 @@ from laptop_hunter.config import AppConfig
 from laptop_hunter.models import ProviderRunResult, RawListing
 from laptop_hunter.providers.base import BaseProvider, create_http_client
 from laptop_hunter.providers.bestbuy import BestBuyProvider
+from laptop_hunter.providers.dealnews import DealNewsProvider
 from laptop_hunter.providers.gaminglaptop import GamingLaptopDealsProvider
 from laptop_hunter.providers.reddit import RedditProvider
 from laptop_hunter.providers.slickdeals import SlickdealsProvider
 
 PROVIDER_REGISTRY: dict[str, BaseProvider] = {
-    "reddit": RedditProvider(),
     "slickdeals": SlickdealsProvider(),
-    "gaminglaptop": GamingLaptopDealsProvider(),
+    "dealnews": DealNewsProvider(),
+    "reddit": RedditProvider(),
     "bestbuy": BestBuyProvider(),
+    "gaminglaptop": GamingLaptopDealsProvider(),
 }
 
 

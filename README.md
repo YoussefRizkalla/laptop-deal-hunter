@@ -7,10 +7,11 @@ Tracks high-end gaming laptops (**RTX 5070 / 4080 / 5070 Ti / 5080 / 4090 / 5090
 ## Architecture
 
 - **Sources**:
-  - `r/LaptopDeals` (Reddit JSON with automatic Atom RSS fallback)
-  - `Slickdeals` (RSS search feeds)
-  - `GamingLaptop.deals` (curated deal table/cards)
+  - `Slickdeals` (Popular + live Forum RSS search feeds — catches flash sales fast)
+  - `DealNews` (Official curated US Laptops RSS feed)
+  - `r/LaptopDeals` (Reddit OAuth2 when `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` are set, with automatic public JSON + Atom RSS fallback)
   - `Best Buy Products & Open-Box API` *(optional — auto-activates when `BESTBUY_API_KEY` is configured)*
+  - `GamingLaptop.deals` *(optional provider in registry, disabled by default due to Cloudflare bot protection on datacenter IPs)*
 - **Strict Discord Alerts vs. Forgiving Dashboard**:
   - **Discord alerts** fire only on confirmed **≥ 32GB RAM & ≥ 1TB SSD** matches that beat your per-GPU target price (10% stricter for Open-Box / Refurbished), hit a ≥ 25% steep discount, or set a new tracked historical low — plus optional extreme outliers when a terse deal title omits RAM/SSD (tagged `[VERIFY SPECS]`).
   - **Near Misses & Upgradeable** deals (e.g., 16GB RAM / 512GB SSD configs that you could upgrade yourself) stay out of Discord and appear in a dedicated tab on the GitHub Pages dashboard.
@@ -29,6 +30,7 @@ Tracks high-end gaming laptops (**RTX 5070 / 4080 / 5070 Ti / 5080 / 4090 / 5090
 3. **Add GitHub Secrets** (**Settings → Secrets and variables → Actions → New repository secret**):
    - `DISCORD_WEBHOOK_URL` *(required for alerts)*: your Discord webhook URL.
    - `BESTBUY_API_KEY` *(optional)*: free API key from [developer.bestbuy.com](https://developer.bestbuy.com/) to include Best Buy live inventory & Open-Box deals.
+   - `REDDIT_CLIENT_ID` & `REDDIT_CLIENT_SECRET` *(optional)*: free script app credentials from [reddit.com/prefs/apps](https://www.reddit.com/prefs/apps) so `r/LaptopDeals` works reliably from GitHub Actions IPs without rate limits.
 4. **Enable GitHub Pages**:
    - Go to **Settings → Pages → Build and deployment → Source** and select **GitHub Actions**.
 5. **Run it once manually**:

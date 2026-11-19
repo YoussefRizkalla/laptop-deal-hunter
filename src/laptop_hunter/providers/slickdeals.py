@@ -1,7 +1,8 @@
-"""Slickdeals RSS search provider."""
+"""Slickdeals RSS search provider (frontpage, popular, and live forum deals)."""
 
 from __future__ import annotations
 
+from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from typing import Any
 from urllib.parse import quote_plus
@@ -14,20 +15,31 @@ from laptop_hunter.models import ProviderRunResult, RawListing
 from laptop_hunter.providers.base import BaseProvider
 
 
-def _parse_pubdate(raw_date: str | None) -> str | None:
+def _parse_pubdate(raw_date: str | None) -> datetime | None:
     if not raw_date:
         return None
     try:
         dt = parsedate_to_datetime(raw_date)
-        return dt.isoformat()
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt.astimezone(timezone.utc)
     except Exception:
-        return raw_date.strip()
+        return None
 
 
-def parse_slickdeals_rss(xml_text: str) -> list[RawListing]:
-    """Parse Slickdeals RSS 2.0 XML into RawListings."""
+def parse_slickdeals_rss(
+    xml_text: str,
+    max_age_days: int | None = 14,
+    now: datetime | None = None,
+) -> list[RawListing]:
+    """Parse Slickdeals RSS 2.0 XML into RawListings, filtering out stale archive deals."""
     listings: list[RawListing] = []
     root = ET.fromstring(xml_text)
+    cutoff = (
+        (now or datetime.now(timezone.utc)) - timedelta(days=max_age_days)
+        if max_age_days is not None
+        else None
+    )
 
     for item in root.findall(".//item"):
         title = (item.findtext("title") or "").strip()
@@ -35,13 +47,20 @@ def parse_slickdeals_rss(xml_text: str) -> list[RawListing]:
         if not title or not link:
             continue
 
-        guid = (item.findtext("guid") or link).strip()
-        desc_html = item.findtext("description") or ""
-        soup = BeautifulSoup(desc_html, "html.parser")
-        desc_text = soup.get_text(" ", strip=True)
+        pub_dt = _parse_pubdate(item.findtext("pubDate"))
+        if cutoff and pub_dt and pub_dt < cutoff:
+            continue
 
-        img = soup.find("img")
-        image_url = str(img["src"]) if img and img.get("src", "").startswith("http") else None
+        guid = (item.findtext("guid") or link).strip()
+        desc_raw = item.findtext("description") or ""
+        if "<" in desc_raw:
+            soup = BeautifulSoup(desc_raw, "html.parser")
+            desc_text = soup.get_text(" ", strip=True)
+            img = soup.find("img")
+            image_url = str(img["src"]) if img and str(img.get("src", "")).startswith("http") else None
+        else:
+            desc_text = desc_raw.strip()
+            image_url = None
 
         listings.append(
             RawListing(
@@ -51,7 +70,7 @@ def parse_slickdeals_rss(xml_text: str) -> list[RawListing]:
                 url=link,
                 description=desc_text[:1200],
                 image_url=image_url,
-                posted_at=_parse_pubdate(item.findtext("pubDate")),
+                posted_at=pub_dt.isoformat() if pub_dt else None,
             )
         )
 
@@ -59,7 +78,7 @@ def parse_slickdeals_rss(xml_text: str) -> list[RawListing]:
 
 
 class SlickdealsProvider(BaseProvider):
-    """Fetch gaming laptop deals from Slickdeals RSS search feeds."""
+    """Fetch recent gaming laptop deals from Slickdeals RSS search feeds."""
 
     name = "slickdeals"
 
@@ -73,29 +92,32 @@ class SlickdealsProvider(BaseProvider):
             "gaming laptop rtx 5080",
             "gaming laptop rtx 4080",
         ]
+        modes = provider_config.get("modes") or ["popdeals", "forum"]
+        max_age_days = provider_config.get("max_post_age_days", 14)
 
         seen_ids: set[str] = set()
         listings: list[RawListing] = []
         errors: list[str] = []
 
-        for query in queries:
-            encoded = quote_plus(str(query))
-            url = (
-                "https://slickdeals.net/newsearch.php"
-                f"?mode=frontpage&searcharea=deals&searchin=first&rss=1&q={encoded}"
-            )
-            try:
-                resp = client.get(url)
-                resp.raise_for_status()
-                for item in parse_slickdeals_rss(resp.text):
-                    if item.external_id not in seen_ids:
-                        seen_ids.add(item.external_id)
-                        listings.append(item)
-            except Exception as exc:
-                errors.append(f"{query!r}: {exc}")
+        for mode in modes:
+            for query in queries:
+                encoded = quote_plus(str(query))
+                url = (
+                    "https://slickdeals.net/newsearch.php"
+                    f"?mode={mode}&searcharea=deals&searchin=first&rss=1&q={encoded}"
+                )
+                try:
+                    resp = client.get(url)
+                    resp.raise_for_status()
+                    for item in parse_slickdeals_rss(resp.text, max_age_days=max_age_days):
+                        if item.external_id not in seen_ids:
+                            seen_ids.add(item.external_id)
+                            listings.append(item)
+                except Exception as exc:
+                    errors.append(f"{mode}/{query!r}: {exc}")
 
         if listings:
-            msg = f"{len(listings)} unique listings across {len(queries)} queries"
+            msg = f"{len(listings)} recent unique listings across {len(modes)} mode(s) x {len(queries)} queries"
             if errors:
                 msg += f" ({len(errors)} query errors)"
             return listings, ProviderRunResult(
@@ -110,5 +132,5 @@ class SlickdealsProvider(BaseProvider):
             provider=self.name,
             status=status,
             listing_count=0,
-            message="; ".join(errors) if errors else "0 listings matched RSS queries",
+            message="; ".join(errors) if errors else "0 recent listings matched RSS queries",
         )

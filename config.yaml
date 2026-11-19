@@ -50,6 +50,9 @@ specs:
     - "gpu only"
     - "bundle only"
     - "monitor only"
+    - "deals for from $"
+    - "deals from $"
+    - "starting at $"
 
 conditions:
   # Allowed conditions: new, open_box, refurbished (used is excluded by default)
@@ -88,15 +91,13 @@ alerts:
   max_alerts_per_run: 10
 
 providers:
-  reddit:
-    enabled: true
-    subreddits:
-      - LaptopDeals
-    limit: 60
-
   slickdeals:
     enabled: true
-    # Search queries & laptop category RSS feeds
+    # `popdeals` catches trending frontpage deals; `forum` catches brand-new flash deals immediately.
+    modes:
+      - popdeals
+      - forum
+    max_post_age_days: 14
     queries:
       - "gaming laptop rtx 5070"
       - "gaming laptop rtx 5080"
@@ -105,15 +106,30 @@ providers:
       - "gaming laptop rtx 4090"
       - "rtx 5070 ti laptop"
 
-  gaminglaptop:
+  dealnews:
     enabled: true
-    url: "https://gaminglaptop.deals/"
+    max_post_age_days: 14
+    feeds:
+      - "https://www.dealnews.com/c49/Computers/Laptops/?rss=1"
+
+  reddit:
+    # Uses optional REDDIT_CLIENT_ID + REDDIT_CLIENT_SECRET OAuth if set; falls back to public JSON/RSS.
+    enabled: true
+    subreddits:
+      - LaptopDeals
+    limit: 60
+    max_post_age_days: 14
 
   bestbuy:
     # Automatically activates when BESTBUY_API_KEY env var is set; skipped cleanly otherwise.
     enabled: true
     include_open_box: true
     page_size: 50
+
+  gaminglaptop:
+    # Disabled by default because gaminglaptop.deals sits behind Cloudflare bot checks on cloud IPs.
+    enabled: false
+    url: "https://gaminglaptop.deals/"
 
 storage:
   # Keep price history snapshots for up to 180 days.

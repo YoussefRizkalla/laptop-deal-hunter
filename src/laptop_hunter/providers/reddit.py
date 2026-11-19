@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
+import os
 import re
 from typing import Any
 import xml.etree.ElementTree as ET
@@ -124,9 +125,28 @@ def parse_reddit_rss(xml_text: str, subreddit: str) -> list[RawListing]:
 
 
 class RedditProvider(BaseProvider):
-    """Fetch recent laptop deal posts from r/LaptopDeals."""
+    """Fetch recent laptop deal posts from r/LaptopDeals.
+
+    Automatically uses Reddit OAuth2 (`oauth.reddit.com`) when REDDIT_CLIENT_ID and
+    REDDIT_CLIENT_SECRET env vars are set, falling back to public JSON and Atom RSS.
+    """
 
     name = "reddit"
+
+    @staticmethod
+    def _get_oauth_token(client: httpx.Client, user_agent: str) -> str | None:
+        client_id = os.getenv("REDDIT_CLIENT_ID", "").strip()
+        client_secret = os.getenv("REDDIT_CLIENT_SECRET", "").strip()
+        if not client_id or not client_secret:
+            return None
+        resp = client.post(
+            "https://www.reddit.com/api/v1/access_token",
+            auth=(client_id, client_secret),
+            data={"grant_type": "client_credentials"},
+            headers={"User-Agent": user_agent},
+        )
+        resp.raise_for_status()
+        return str(resp.json().get("access_token") or "") or None
 
     def fetch(
         self,
@@ -135,33 +155,74 @@ class RedditProvider(BaseProvider):
     ) -> tuple[list[RawListing], ProviderRunResult]:
         subreddits = provider_config.get("subreddits") or ["LaptopDeals"]
         limit = int(provider_config.get("limit", 60))
-        all_listings: list[RawListing] = []
+        max_age_days = provider_config.get("max_post_age_days", 14)
+        cutoff = (
+            datetime.now(timezone.utc) - timedelta(days=int(max_age_days))
+            if max_age_days is not None
+            else None
+        )
+        user_agent = "python:laptop-deal-hunter:v0.1 (GitHub Actions deal monitor)"
+
+        oauth_token: str | None = None
         notes: list[str] = []
+        try:
+            oauth_token = self._get_oauth_token(client, user_agent)
+        except Exception as exc:
+            notes.append(f"OAuth failed ({exc}), using public fallback")
+
+        all_listings: list[RawListing] = []
 
         for sub in subreddits:
-            json_url = f"https://www.reddit.com/r/{sub}/new.json?limit={limit}&raw_json=1"
-            rss_url = f"https://www.reddit.com/r/{sub}/new/.rss?limit={limit}"
-            headers = {"User-Agent": "LaptopDealHunter/0.1 (GitHub Actions deal monitor)"}
-
-            try:
-                resp = client.get(json_url, headers=headers)
-                if resp.status_code == 200:
+            parsed: list[RawListing] = []
+            if oauth_token:
+                try:
+                    resp = client.get(
+                        f"https://oauth.reddit.com/r/{sub}/new?limit={limit}&raw_json=1",
+                        headers={
+                            "User-Agent": user_agent,
+                            "Authorization": f"Bearer {oauth_token}",
+                        },
+                    )
+                    resp.raise_for_status()
                     parsed = parse_reddit_json(resp.json(), sub)
-                    all_listings.extend(parsed)
-                    notes.append(f"r/{sub}: {len(parsed)} via JSON")
-                    continue
-                notes.append(f"r/{sub} JSON HTTP {resp.status_code}, trying RSS")
-            except Exception as exc:
-                notes.append(f"r/{sub} JSON error ({exc}), trying RSS")
+                    notes.append(f"r/{sub}: {len(parsed)} via OAuth")
+                except Exception as exc:
+                    notes.append(f"r/{sub} OAuth error ({exc})")
 
-            try:
-                rss_resp = client.get(rss_url, headers=headers)
-                rss_resp.raise_for_status()
-                parsed = parse_reddit_rss(rss_resp.text, sub)
-                all_listings.extend(parsed)
-                notes.append(f"r/{sub}: {len(parsed)} via RSS")
-            except Exception as exc:
-                notes.append(f"r/{sub} RSS error ({exc})")
+            if not parsed:
+                headers = {"User-Agent": user_agent}
+                json_url = f"https://www.reddit.com/r/{sub}/new.json?limit={limit}&raw_json=1"
+                rss_url = f"https://www.reddit.com/r/{sub}/new.rss?limit={limit}"
+                try:
+                    resp = client.get(json_url, headers=headers)
+                    if resp.status_code == 200:
+                        parsed = parse_reddit_json(resp.json(), sub)
+                        notes.append(f"r/{sub}: {len(parsed)} via JSON")
+                    else:
+                        notes.append(f"r/{sub} JSON HTTP {resp.status_code}, trying RSS")
+                except Exception as exc:
+                    notes.append(f"r/{sub} JSON error ({exc}), trying RSS")
+
+                if not parsed:
+                    try:
+                        rss_resp = client.get(rss_url, headers=headers)
+                        rss_resp.raise_for_status()
+                        parsed = parse_reddit_rss(rss_resp.text, sub)
+                        notes.append(f"r/{sub}: {len(parsed)} via RSS")
+                    except Exception as exc:
+                        notes.append(f"r/{sub} RSS error ({exc})")
+
+            for item in parsed:
+                if cutoff and item.posted_at:
+                    try:
+                        dt = datetime.fromisoformat(item.posted_at.replace("Z", "+00:00"))
+                        if dt.tzinfo is None:
+                            dt = dt.replace(tzinfo=timezone.utc)
+                        if dt < cutoff:
+                            continue
+                    except ValueError:
+                        pass
+                all_listings.append(item)
 
         status = "ok" if all_listings else "error"
         return all_listings, ProviderRunResult(

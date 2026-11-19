@@ -313,7 +313,7 @@ def extract_model_name(text: str, brand: str | None = None) -> str | None:
 
 def extract_condition(text: str, hint: str | None = None) -> str:
     combined = f"{hint or ''} {text}".lower()
-    if re.search(r"\bopen[\s-]*box\b", combined):
+    if re.search(r"\bopen[\s-]*box(?:es)?\b", combined):
         return "open_box"
     if re.search(
         r"\b(?:certified\s+refurb|manufacturer\s+refurb|factory\s+refurb|refurbished|refurb|recertified|renewed|lenovo\s+outlet)\b",
@@ -414,25 +414,67 @@ def _int_or_none(val: object) -> int | None:
         return None
 
 
+def _url_slug_text(url: str) -> str:
+    """Extract a readable text representation of a URL path slug (useful for Slickdeals URLs)."""
+    try:
+        path = urlparse(url).path or ""
+        return re.sub(r"[-_/]+", " ", path).strip()
+    except Exception:
+        return ""
+
+
 def parse_listing(listing: RawListing) -> ParsedSpecs:
     """Parse structured specifications from a RawListing."""
     title = listing.title or ""
     desc = listing.description or ""
+    slug = _url_slug_text(listing.url)
     combined = f"{title}\n{desc}".strip()
     raw = listing.raw_specs or {}
 
-    gpu = raw.get("gpu") or extract_gpu(title) or extract_gpu(desc)
-    ram_gb = _int_or_none(raw.get("ram_gb")) or extract_ram_gb(title) or extract_ram_gb(desc)
-    ssd_gb = _int_or_none(raw.get("ssd_gb")) or extract_ssd_gb(title) or extract_ssd_gb(desc)
+    gpu = raw.get("gpu") or extract_gpu(title) or extract_gpu(desc) or extract_gpu(slug)
+    ram_gb = (
+        _int_or_none(raw.get("ram_gb"))
+        or extract_ram_gb(title)
+        or extract_ram_gb(desc)
+        or extract_ram_gb(slug)
+    )
+    ssd_gb = (
+        _int_or_none(raw.get("ssd_gb"))
+        or extract_ssd_gb(title)
+        or extract_ssd_gb(desc)
+        or extract_ssd_gb(slug)
+    )
     cpu = raw.get("cpu") or extract_cpu(title) or extract_cpu(desc)
-    brand = raw.get("brand") or extract_brand(title) or extract_brand(desc)
+    brand = raw.get("brand") or extract_brand(title) or extract_brand(desc) or extract_brand(slug)
     model_name = raw.get("model_name") or extract_model_name(title, brand=brand)
     screen_inches = raw.get("screen_inches") or extract_screen_inches(title) or extract_screen_inches(desc)
-    panel_type = raw.get("panel_type") or extract_panel_type(title) or extract_panel_type(desc)
+    panel_type = raw.get("panel_type") or extract_panel_type(title) or extract_panel_type(desc) or extract_panel_type(slug)
     resolution = raw.get("resolution") or extract_resolution(title) or extract_resolution(desc)
     refresh_hz = _int_or_none(raw.get("refresh_hz")) or extract_refresh_hz(title) or extract_refresh_hz(desc)
     condition = extract_condition(combined, hint=listing.condition_hint)
     store = extract_store(title, listing.url, existing_store=listing.store)
+    if store is None and slug:
+        slug_lower = slug.lower()
+        # Only infer non-OEM retailer names from URL slugs so laptop brands (e.g. "asus", "lenovo")
+        # are not mistaken for the store selling them.
+        for needle, canonical in (
+            ("bestbuy", "Best Buy"),
+            ("best buy", "Best Buy"),
+            ("microcenter", "Micro Center"),
+            ("micro center", "Micro Center"),
+            ("bhphotovideo", "B&H Photo"),
+            ("newegg", "Newegg"),
+            ("amazon", "Amazon"),
+            ("walmart", "Walmart"),
+            ("costco", "Costco"),
+            ("ebay", "eBay"),
+            ("antonline", "Antonline"),
+            ("adorama", "Adorama"),
+            ("bjs", "BJ's"),
+        ):
+            if needle in slug_lower:
+                store = canonical
+                break
 
     parsed_price, parsed_msrp = extract_prices(title)
     if parsed_price is None and desc:

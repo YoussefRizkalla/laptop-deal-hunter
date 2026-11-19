@@ -1,8 +1,11 @@
 """Unit tests for all deal provider parsers using realistic fixtures."""
 
+from datetime import datetime, timezone
+
 import pytest
 
 from laptop_hunter.providers.bestbuy import parse_bestbuy_open_box, parse_bestbuy_products
+from laptop_hunter.providers.dealnews import parse_dealnews_rss
 from laptop_hunter.providers.gaminglaptop import parse_gaminglaptop_html
 from laptop_hunter.providers.reddit import parse_reddit_json, parse_reddit_rss
 from laptop_hunter.providers.slickdeals import parse_slickdeals_rss
@@ -83,13 +86,40 @@ def test_parse_slickdeals_rss() -> None:
         <pubDate>Wed, 18 Nov 2026 18:00:00 GMT</pubDate>
         <description><![CDATA[<img src="https://static.slickdealscdn.com/img.jpg"/> Great deal at Lenovo.]]></description>
       </item>
+      <item>
+        <title>Ancient Deal RTX 5070 32GB 1TB $999</title>
+        <link>https://slickdeals.net/f/10000001-old</link>
+        <guid>https://slickdeals.net/f/10000001</guid>
+        <pubDate>Mon, 01 Jan 2026 12:00:00 GMT</pubDate>
+        <description>Expired archive entry</description>
+      </item>
     </channel></rss>
     """
-    listings = parse_slickdeals_rss(xml)
+    now = datetime(2026, 11, 19, 0, 0, tzinfo=timezone.utc)
+    listings = parse_slickdeals_rss(xml, max_age_days=14, now=now)
     assert len(listings) == 1
     assert listings[0].provider == "slickdeals"
     assert listings[0].image_url == "https://static.slickdealscdn.com/img.jpg"
     assert "Great deal at Lenovo." in listings[0].description
+
+
+def test_parse_dealnews_rss() -> None:
+    xml = """<?xml version="1.0" encoding="UTF-8"?>
+    <rss version="2.0"><channel>
+      <item>
+        <title>ASUS ROG Strix G16 RTX 5070 Ti 32GB RAM 1TB SSD Gaming Laptop for $1,449</title>
+        <link>https://www.dealnews.com/products/ASUS-ROG-Strix/123.html</link>
+        <guid>dn-123</guid>
+        <pubDate>Wed, 18 Nov 2026 16:00:00 GMT</pubDate>
+        <description>Lowest price ever at Best Buy.</description>
+      </item>
+    </channel></rss>
+    """
+    now = datetime(2026, 11, 19, 0, 0, tzinfo=timezone.utc)
+    listings = parse_dealnews_rss(xml, max_age_days=14, now=now)
+    assert len(listings) == 1
+    assert listings[0].provider == "dealnews"
+    assert "RTX 5070 Ti" in listings[0].title
 
 
 def test_parse_gaminglaptop_html_cards() -> None:

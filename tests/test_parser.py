@@ -71,6 +71,11 @@ def test_open_box_and_refurbished_conditions() -> None:
     assert open_box.condition == "open_box"
     assert open_box.brand == "Acer"
 
+    open_boxes = parse_listing(
+        _make_listing("Open Boxes: GIGABYTE GAMING A16 RTX 5070 32GB 1TB - $1,134")
+    )
+    assert open_boxes.condition == "open_box"
+
     refurb = parse_listing(
         _make_listing("Certified Refurbished Lenovo Legion Pro 5 RTX 4080 32GB DDR5 2TB SSD $1,349")
     )
@@ -111,3 +116,18 @@ def test_discount_amount_not_mistaken_for_price() -> None:
     assert specs.price_usd == pytest.approx(1199.0)
     assert specs.msrp_usd == pytest.approx(1699.0)
     assert specs.discount_pct == pytest.approx(29.4)
+
+
+def test_url_slug_rescues_ram_ssd_and_store_from_terse_slickdeals_title() -> None:
+    listing = _make_listing(
+        "Lenovo Legion Pro 7i Laptop: 16\" 1600p 240Hz OLED, Intel Ultra 9 275HX, RTX 5090 $2750 + Free Shipping",
+        url=(
+            "https://slickdeals.net/f/19017115-lenovo-legion-pro-7i-16-qhd-240hz-oled-"
+            "intel-ultra-9-275hx-rtx-5090-32gb-ddr5-2tb-ssd-2749-bestbuy-com"
+        ),
+    )
+    specs = parse_listing(listing)
+    assert specs.gpu == "RTX 5090"
+    assert specs.ram_gb == 32
+    assert specs.ssd_gb == 2000
+    assert specs.store == "Best Buy"

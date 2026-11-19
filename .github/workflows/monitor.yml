@@ -55,6 +55,8 @@ jobs:
           PYTHONPATH: src
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           BESTBUY_API_KEY: ${{ secrets.BESTBUY_API_KEY }}
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
         run: |
           DASH_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
           python -m laptop_hunter \
