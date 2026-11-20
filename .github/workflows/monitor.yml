@@ -2,8 +2,8 @@ name: Laptop Deal Monitor
 
 on:
   schedule:
-    # Run every 20 minutes, 24/7
-    - cron: "*/20 * * * *"
+    # Off-peak fallback schedule (primary 15-20 min cadence triggered reliably via cron-job.org workflow_dispatch)
+    - cron: "17 */2 * * *"
   workflow_dispatch:
   push:
     branches: ["main"]
@@ -78,7 +78,7 @@ jobs:
             BRANCH_EXISTS=false
           fi
 
-          if [ "${{ steps.run_monitor.outputs.state_changed }}" = "true" ] || [ "$BRANCH_EXISTS" = "false" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          if [ "${{ steps.run_monitor.outputs.state_changed }}" = "true" ] || [ "$BRANCH_EXISTS" = "false" ]; then
             git add state.json
             if ! git diff --cached --quiet; then
               git commit -m "data: update deals (${{ steps.run_monitor.outputs.matches_count }} matches, ${{ steps.run_monitor.outputs.alerts_sent }} alerts)"

@@ -33,9 +33,11 @@ Tracks high-end gaming laptops (**RTX 5070 / 4080 / 5070 Ti / 5080 / 4090 / 5090
    - `REDDIT_CLIENT_ID` & `REDDIT_CLIENT_SECRET` *(optional — not needed by default)*: `r/LaptopDeals` already works out of the box with zero keys via Arctic Shift; add Reddit OAuth keys only if you prefer hitting `oauth.reddit.com` directly.
 4. **Enable GitHub Pages**:
    - Go to **Settings → Pages → Build and deployment → Source** and select **GitHub Actions**.
-5. **Run it once manually**:
-   - Go to **Actions → Laptop Deal Monitor → Run workflow**.
-   - After that, it runs automatically every **20 minutes**, alerts Discord on killer deals, and updates your dashboard at `https://<your-username>.github.io/laptop-deal-hunter/`.
+5. **Set up reliable 15–20 minute scheduling via [cron-job.org](https://cron-job.org/)** *(GitHub's native `schedule` cron often lags by hours on free repos; `monitor.yml` keeps an off-peak 2-hour fallback)*:
+   - Create a fine-grained GitHub Personal Access Token scoped **only** to this repo with **Actions: Read and write**.
+   - In `cron-job.org`, create a `POST` job every 15–20 min to:
+     `https://api.github.com/repos/<your-username>/laptop-deal-hunter/actions/workflows/monitor.yml/dispatches`
+     with headers `Authorization: Bearer <TOKEN>`, `Accept: application/vnd.github+json`, `Content-Type: application/json`, and body `{"ref":"main"}`.
 
 ## Customizing Target Prices & Rules
 
