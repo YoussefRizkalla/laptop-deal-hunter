@@ -7,7 +7,11 @@ import pytest
 from laptop_hunter.providers.bestbuy import parse_bestbuy_open_box, parse_bestbuy_products
 from laptop_hunter.providers.dealnews import parse_dealnews_rss
 from laptop_hunter.providers.gaminglaptop import parse_gaminglaptop_html
-from laptop_hunter.providers.reddit import parse_reddit_json, parse_reddit_rss
+from laptop_hunter.providers.reddit import (
+    parse_arctic_shift_json,
+    parse_reddit_json,
+    parse_reddit_rss,
+)
 from laptop_hunter.providers.slickdeals import parse_slickdeals_rss
 
 
@@ -74,6 +78,32 @@ def test_parse_reddit_rss_fallback() -> None:
     assert len(listings) == 1
     assert listings[0].url == "https://www.bhphotovideo.com/c/product/999"
     assert "Legion Pro 7i" in listings[0].title
+
+
+def test_parse_arctic_shift_json() -> None:
+    payload = {
+        "data": [
+            {
+                "id": "as1",
+                "title": "[Amazon] GIGABYTE AERO X16 RTX 5070 32GB DDR5 1TB SSD. Now: $1,199 After 28% Off",
+                "url": "https://www.amazon.com/dp/B0TEST",
+                "permalink": "/r/LaptopDeals/comments/as1/aero/",
+                "selftext": "",
+                "score": 12,
+                "created_utc": 1795140890,
+            },
+            {
+                "id": "as2",
+                "title": "Expired deal",
+                "url": "https://www.amazon.com/dp/B0OLD",
+                "link_flair_text": "Expired",
+            },
+        ]
+    }
+    listings = parse_arctic_shift_json(payload, "LaptopDeals")
+    assert len(listings) == 1
+    assert listings[0].external_id == "LaptopDeals:as1"
+    assert listings[0].url == "https://www.amazon.com/dp/B0TEST"
 
 
 def test_parse_slickdeals_rss() -> None:

@@ -30,50 +30,74 @@ def _pick_deal_url(post_url: str, selftext: str, permalink: str) -> str:
     return permalink or post_url
 
 
+def _normalize_reddit_post(data: dict[str, Any], subreddit: str) -> RawListing | None:
+    """Convert a single Reddit/Arctic-Shift post dict into a RawListing."""
+    title = (data.get("title") or "").strip()
+    if not title or _NON_DEAL_TITLE_RE.search(title):
+        return None
+
+    flair = (data.get("link_flair_text") or "").strip()
+    if flair and _EXPIRED_FLAIR_RE.search(flair):
+        return None
+    if data.get("stickied") or data.get("over_18"):
+        return None
+
+    post_id = str(data.get("id") or "")
+    raw_permalink = data.get("permalink") or ""
+    if raw_permalink.startswith("http"):
+        permalink = raw_permalink
+    elif raw_permalink:
+        permalink = f"https://www.reddit.com{raw_permalink}"
+    else:
+        permalink = ""
+
+    selftext = (data.get("selftext") or "").strip()
+    deal_url = _pick_deal_url(data.get("url") or "", selftext, permalink)
+
+    created_utc = data.get("created_utc")
+    posted_at = (
+        datetime.fromtimestamp(float(created_utc), tz=timezone.utc).isoformat()
+        if created_utc
+        else None
+    )
+
+    thumbnail = data.get("thumbnail")
+    image_url = thumbnail if isinstance(thumbnail, str) and thumbnail.startswith("http") else None
+
+    return RawListing(
+        provider="reddit",
+        external_id=f"{subreddit}:{post_id}",
+        title=title,
+        url=deal_url,
+        description=selftext[:1200],
+        image_url=image_url,
+        posted_at=posted_at,
+        condition_hint=flair or None,
+        upvotes=int(data.get("score")) if data.get("score") is not None else None,
+    )
+
+
 def parse_reddit_json(payload: dict[str, Any], subreddit: str) -> list[RawListing]:
     """Parse Reddit listing JSON into RawListings."""
     listings: list[RawListing] = []
     children = ((payload or {}).get("data") or {}).get("children") or []
     for child in children:
         data = (child or {}).get("data") or {}
-        title = (data.get("title") or "").strip()
-        if not title or _NON_DEAL_TITLE_RE.search(title):
+        item = _normalize_reddit_post(data, subreddit)
+        if item is not None:
+            listings.append(item)
+    return listings
+
+
+def parse_arctic_shift_json(payload: dict[str, Any], subreddit: str) -> list[RawListing]:
+    """Parse Arctic Shift public Reddit archive API JSON into RawListings."""
+    listings: list[RawListing] = []
+    for data in (payload or {}).get("data") or []:
+        if not isinstance(data, dict):
             continue
-
-        flair = (data.get("link_flair_text") or "").strip()
-        if flair and _EXPIRED_FLAIR_RE.search(flair):
-            continue
-        if data.get("stickied") or data.get("over_18"):
-            continue
-
-        post_id = str(data.get("id") or "")
-        permalink = f"https://www.reddit.com{data.get('permalink', '')}" if data.get("permalink") else ""
-        selftext = (data.get("selftext") or "").strip()
-        deal_url = _pick_deal_url(data.get("url") or "", selftext, permalink)
-
-        created_utc = data.get("created_utc")
-        posted_at = (
-            datetime.fromtimestamp(float(created_utc), tz=timezone.utc).isoformat()
-            if created_utc
-            else None
-        )
-
-        thumbnail = data.get("thumbnail")
-        image_url = thumbnail if isinstance(thumbnail, str) and thumbnail.startswith("http") else None
-
-        listings.append(
-            RawListing(
-                provider="reddit",
-                external_id=f"{subreddit}:{post_id}",
-                title=title,
-                url=deal_url,
-                description=selftext[:1200],
-                image_url=image_url,
-                posted_at=posted_at,
-                condition_hint=flair or None,
-                upvotes=int(data.get("score")) if data.get("score") is not None else None,
-            )
-        )
+        item = _normalize_reddit_post(data, subreddit)
+        if item is not None:
+            listings.append(item)
     return listings
 
 
@@ -188,6 +212,27 @@ class RedditProvider(BaseProvider):
                     notes.append(f"r/{sub}: {len(parsed)} via OAuth")
                 except Exception as exc:
                     notes.append(f"r/{sub} OAuth error ({exc})")
+
+            if not parsed:
+                # Arctic Shift public Reddit mirror works cleanly with zero API key on cloud IPs
+                as_url = "https://arctic-shift.photon-reddit.com/api/posts/search"
+                try:
+                    as_resp = client.get(
+                        as_url,
+                        params={
+                            "subreddit": sub,
+                            "limit": min(limit, 100),
+                            "sort": "desc",
+                        },
+                        headers={"User-Agent": user_agent},
+                    )
+                    if as_resp.status_code == 200:
+                        parsed = parse_arctic_shift_json(as_resp.json(), sub)
+                        notes.append(f"r/{sub}: {len(parsed)} via Arctic Shift")
+                    else:
+                        notes.append(f"r/{sub} Arctic Shift HTTP {as_resp.status_code}")
+                except Exception as exc:
+                    notes.append(f"r/{sub} Arctic Shift error ({exc})")
 
             if not parsed:
                 headers = {"User-Agent": user_agent}

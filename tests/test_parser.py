@@ -131,3 +131,14 @@ def test_url_slug_rescues_ram_ssd_and_store_from_terse_slickdeals_title() -> Non
     assert specs.ram_gb == 32
     assert specs.ssd_gb == 2000
     assert specs.store == "Best Buy"
+
+
+def test_after_percent_off_computes_discount_and_msrp() -> None:
+    listing = _make_listing(
+        "[Amazon] GIGABYTE AERO X16 RTX 5070 32GB DDR5 RAM 1TB SSD. Now: $1,200 After 25% Off",
+        url="https://www.amazon.com/dp/B0TEST",
+    )
+    specs = parse_listing(listing)
+    assert specs.price_usd == pytest.approx(1200.0)
+    assert specs.discount_pct == pytest.approx(25.0)
+    assert specs.msrp_usd == pytest.approx(1600.0)

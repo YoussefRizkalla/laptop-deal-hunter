@@ -173,6 +173,11 @@ _PRICE_RE = re.compile(
     re.I,
 )
 
+_DISCOUNT_PCT_RE = re.compile(
+    r"\b(?:after\s+|save\s+)?(?P<pct>[1-7]\d(?:\.\d)?)\s*%\s*off\b|\bsave\s+(?P<pct2>[1-7]\d(?:\.\d)?)\s*%",
+    re.I,
+)
+
 _MODEL_LINE_PATTERNS: list[re.Pattern[str]] = [
     re.compile(r"\b(?:ROG\s+)?(?:Zephyrus|Strix\s+SCAR|Strix\s+G|TUF\s+Gaming)\s+[A-Z]?\d{2,3}\b", re.I),
     re.compile(r"\bLegion\s+(?:Pro\s+|Slim\s+)?[579]i?(?:\s+Gen\s+\d{1,2})?\b", re.I),
@@ -491,6 +496,14 @@ def parse_listing(listing: RawListing) -> ParsedSpecs:
     discount_pct: float | None = None
     if price_usd is not None and msrp_usd is not None and msrp_usd > price_usd:
         discount_pct = round(((msrp_usd - price_usd) / msrp_usd) * 100.0, 1)
+    elif price_usd is not None:
+        pct_match = _DISCOUNT_PCT_RE.search(title) or _DISCOUNT_PCT_RE.search(desc)
+        if pct_match:
+            pct_val = float(pct_match.group("pct") or pct_match.group("pct2"))
+            if 5.0 <= pct_val <= 75.0:
+                discount_pct = round(pct_val, 1)
+                if msrp_usd is None:
+                    msrp_usd = round(price_usd / (1.0 - pct_val / 100.0), 2)
 
     return ParsedSpecs(
         gpu=gpu,

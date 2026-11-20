@@ -9,7 +9,7 @@ Tracks high-end gaming laptops (**RTX 5070 / 4080 / 5070 Ti / 5080 / 4090 / 5090
 - **Sources**:
   - `Slickdeals` (Popular + live Forum RSS search feeds — catches flash sales fast)
   - `DealNews` (Official curated US Laptops RSS feed)
-  - `r/LaptopDeals` (Reddit OAuth2 when `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` are set, with automatic public JSON + Atom RSS fallback)
+  - `r/LaptopDeals` (Zero-key near-real-time feed via Arctic Shift public Reddit mirror, with optional Reddit OAuth2 & public JSON/RSS fallback)
   - `Best Buy Products & Open-Box API` *(optional — auto-activates when `BESTBUY_API_KEY` is configured)*
   - `GamingLaptop.deals` *(optional provider in registry, disabled by default due to Cloudflare bot protection on datacenter IPs)*
 - **Strict Discord Alerts vs. Forgiving Dashboard**:
@@ -30,7 +30,7 @@ Tracks high-end gaming laptops (**RTX 5070 / 4080 / 5070 Ti / 5080 / 4090 / 5090
 3. **Add GitHub Secrets** (**Settings → Secrets and variables → Actions → New repository secret**):
    - `DISCORD_WEBHOOK_URL` *(required for alerts)*: your Discord webhook URL.
    - `BESTBUY_API_KEY` *(optional)*: free API key from [developer.bestbuy.com](https://developer.bestbuy.com/) to include Best Buy live inventory & Open-Box deals.
-   - `REDDIT_CLIENT_ID` & `REDDIT_CLIENT_SECRET` *(optional)*: free script app credentials from [reddit.com/prefs/apps](https://www.reddit.com/prefs/apps) so `r/LaptopDeals` works reliably from GitHub Actions IPs without rate limits.
+   - `REDDIT_CLIENT_ID` & `REDDIT_CLIENT_SECRET` *(optional — not needed by default)*: `r/LaptopDeals` already works out of the box with zero keys via Arctic Shift; add Reddit OAuth keys only if you prefer hitting `oauth.reddit.com` directly.
 4. **Enable GitHub Pages**:
    - Go to **Settings → Pages → Build and deployment → Source** and select **GitHub Actions**.
 5. **Run it once manually**:
