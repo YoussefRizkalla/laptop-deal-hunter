@@ -196,12 +196,24 @@ class RedditProvider(BaseProvider):
 
         all_listings: list[RawListing] = []
 
-        for sub in subreddits:
+        for sub_entry in subreddits:
+            if isinstance(sub_entry, dict):
+                sub = str(sub_entry.get("name") or "").strip()
+                title_filter = str(sub_entry.get("title_filter") or "").strip() or None
+                sub_limit = int(sub_entry.get("limit", limit))
+            else:
+                sub = str(sub_entry).strip()
+                title_filter = None
+                sub_limit = limit
+            if not sub:
+                continue
+
+            label = f"r/{sub}" + (f"[title~{title_filter}]" if title_filter else "")
             parsed: list[RawListing] = []
-            if oauth_token:
+            if oauth_token and not title_filter:
                 try:
                     resp = client.get(
-                        f"https://oauth.reddit.com/r/{sub}/new?limit={limit}&raw_json=1",
+                        f"https://oauth.reddit.com/r/{sub}/new?limit={sub_limit}&raw_json=1",
                         headers={
                             "User-Agent": user_agent,
                             "Authorization": f"Bearer {oauth_token}",
@@ -209,55 +221,60 @@ class RedditProvider(BaseProvider):
                     )
                     resp.raise_for_status()
                     parsed = parse_reddit_json(resp.json(), sub)
-                    notes.append(f"r/{sub}: {len(parsed)} via OAuth")
+                    notes.append(f"{label}: {len(parsed)} via OAuth")
                 except Exception as exc:
-                    notes.append(f"r/{sub} OAuth error ({exc})")
+                    notes.append(f"{label} OAuth error ({exc})")
 
             if not parsed:
-                # Arctic Shift public Reddit mirror works cleanly with zero API key on cloud IPs
+                # Arctic Shift public Reddit mirror works cleanly with zero API key on cloud IPs.
+                # Always query the fast (subreddit, created_utc) index without server-side `title`
+                # full-text search (which times out on large subreddits) and apply `title_filter` locally.
                 as_url = "https://arctic-shift.photon-reddit.com/api/posts/search"
+                as_params: dict[str, Any] = {
+                    "subreddit": sub,
+                    "limit": min(sub_limit, 100),
+                    "sort": "desc",
+                }
                 try:
                     as_resp = client.get(
                         as_url,
-                        params={
-                            "subreddit": sub,
-                            "limit": min(limit, 100),
-                            "sort": "desc",
-                        },
+                        params=as_params,
                         headers={"User-Agent": user_agent},
                     )
                     if as_resp.status_code == 200:
                         parsed = parse_arctic_shift_json(as_resp.json(), sub)
-                        notes.append(f"r/{sub}: {len(parsed)} via Arctic Shift")
+                        notes.append(f"{label}: {len(parsed)} via Arctic Shift")
                     else:
-                        notes.append(f"r/{sub} Arctic Shift HTTP {as_resp.status_code}")
+                        notes.append(f"{label} Arctic Shift HTTP {as_resp.status_code}")
                 except Exception as exc:
-                    notes.append(f"r/{sub} Arctic Shift error ({exc})")
+                    notes.append(f"{label} Arctic Shift error ({exc})")
 
             if not parsed:
                 headers = {"User-Agent": user_agent}
-                json_url = f"https://www.reddit.com/r/{sub}/new.json?limit={limit}&raw_json=1"
-                rss_url = f"https://www.reddit.com/r/{sub}/new.rss?limit={limit}"
+                json_url = f"https://www.reddit.com/r/{sub}/new.json?limit={sub_limit}&raw_json=1"
+                rss_url = f"https://www.reddit.com/r/{sub}/new.rss?limit={sub_limit}"
                 try:
                     resp = client.get(json_url, headers=headers)
                     if resp.status_code == 200:
                         parsed = parse_reddit_json(resp.json(), sub)
-                        notes.append(f"r/{sub}: {len(parsed)} via JSON")
+                        notes.append(f"{label}: {len(parsed)} via JSON")
                     else:
-                        notes.append(f"r/{sub} JSON HTTP {resp.status_code}, trying RSS")
+                        notes.append(f"{label} JSON HTTP {resp.status_code}, trying RSS")
                 except Exception as exc:
-                    notes.append(f"r/{sub} JSON error ({exc}), trying RSS")
+                    notes.append(f"{label} JSON error ({exc}), trying RSS")
 
                 if not parsed:
                     try:
                         rss_resp = client.get(rss_url, headers=headers)
                         rss_resp.raise_for_status()
                         parsed = parse_reddit_rss(rss_resp.text, sub)
-                        notes.append(f"r/{sub}: {len(parsed)} via RSS")
+                        notes.append(f"{label}: {len(parsed)} via RSS")
                     except Exception as exc:
-                        notes.append(f"r/{sub} RSS error ({exc})")
+                        notes.append(f"{label} RSS error ({exc})")
 
             for item in parsed:
+                if title_filter and title_filter.lower() not in item.title.lower():
+                    continue
                 if cutoff and item.posted_at:
                     try:
                         dt = datetime.fromisoformat(item.posted_at.replace("Z", "+00:00"))

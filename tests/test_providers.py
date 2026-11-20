@@ -106,6 +106,48 @@ def test_parse_arctic_shift_json() -> None:
     assert listings[0].url == "https://www.amazon.com/dp/B0TEST"
 
 
+def test_reddit_provider_supports_title_filter_subreddit_dict() -> None:
+    import httpx
+    from laptop_hunter.providers.reddit import RedditProvider
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        assert request.url.params.get("subreddit") == "buildapcsales"
+        assert "title" not in request.url.params
+        return httpx.Response(
+            200,
+            json={
+                "data": [
+                    {
+                        "id": "b1",
+                        "title": "[Laptop] ASUS ROG Strix RTX 5070 Ti 32GB 1TB - $1,499",
+                        "url": "https://www.bestbuy.com/site/strix/1",
+                        "permalink": "/r/buildapcsales/comments/b1/",
+                        "created_utc": datetime.now(timezone.utc).timestamp(),
+                    },
+                    {
+                        "id": "b2",
+                        "title": "[GPU] RTX 5070 Ti Desktop Card - $749",
+                        "url": "https://www.newegg.com/p/gpu",
+                        "permalink": "/r/buildapcsales/comments/b2/",
+                        "created_utc": datetime.now(timezone.utc).timestamp(),
+                    },
+                ]
+            },
+        )
+
+    client = httpx.Client(transport=httpx.MockTransport(handler))
+    listings, result = RedditProvider().fetch(
+        client,
+        {
+            "subreddits": [{"name": "buildapcsales", "title_filter": "laptop", "limit": 20}],
+            "max_post_age_days": 14,
+        },
+    )
+    assert result.status == "ok"
+    assert len(listings) == 1
+    assert "ASUS ROG Strix" in listings[0].title
+
+
 def test_parse_slickdeals_rss() -> None:
     xml = """<?xml version="1.0" encoding="UTF-8"?>
     <rss version="2.0"><channel>

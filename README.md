@@ -6,11 +6,11 @@ Tracks high-end gaming laptops (**RTX 5070 / 4080 / 5070 Ti / 5080 / 4090 / 5090
 
 ## Architecture
 
-- **Sources**:
-  - `Slickdeals` (Popular + live Forum RSS search feeds — catches flash sales fast)
-  - `DealNews` (Official curated US Laptops RSS feed)
-  - `r/LaptopDeals` (Zero-key near-real-time feed via Arctic Shift public Reddit mirror, with optional Reddit OAuth2 & public JSON/RSS fallback)
-  - `Best Buy Products & Open-Box API` *(optional — auto-activates when `BESTBUY_API_KEY` is configured)*
+- **Sources (all zero-key out of the box)**:
+  - `Slickdeals` (Popular + live Forum RSS search feeds covering RTX 5070–5090, 4080/4090, Best Buy, Micro Center, Open-Box, and Refurbished)
+  - `DealNews` (Official Gaming Laptops, General Laptops, and B&H Photo Laptops RSS feeds)
+  - `Reddit` (`r/LaptopDeals`, `r/GamingLaptopSales`, and `r/buildapcsales` `[Laptop]` posts via zero-key Arctic Shift mirror, with optional OAuth2 fallback)
+  - `Best Buy Products & Open-Box API` *(optional — auto-activates only if `BESTBUY_API_KEY` is configured)*
   - `GamingLaptop.deals` *(optional provider in registry, disabled by default due to Cloudflare bot protection on datacenter IPs)*
 - **Strict Discord Alerts vs. Forgiving Dashboard**:
   - **Discord alerts** fire only on confirmed **≥ 32GB RAM & ≥ 1TB SSD** matches that beat your per-GPU target price (10% stricter for Open-Box / Refurbished), hit a ≥ 25% steep discount, or set a new tracked historical low — plus optional extreme outliers when a terse deal title omits RAM/SSD (tagged `[VERIFY SPECS]`).

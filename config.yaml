@@ -44,6 +44,12 @@ specs:
     - "desktop"
     - "pre-built"
     - "prebuilt"
+    - "[prebuilt]"
+    - "[gpu]"
+    - "[monitor]"
+    - "[cpu]"
+    - "[ram]"
+    - "[ssd]"
     - "tower"
     - "graphics card"
     - "egpu"
@@ -105,18 +111,29 @@ providers:
       - "gaming laptop rtx 4080"
       - "gaming laptop rtx 4090"
       - "rtx 5070 ti laptop"
+      - "open box rtx laptop"
+      - "refurbished rtx 5070 laptop"
+      - "refurbished rtx 5080 laptop"
+      - "best buy rtx laptop"
+      - "micro center rtx laptop"
 
   dealnews:
     enabled: true
     max_post_age_days: 14
     feeds:
+      - "https://www.dealnews.com/f1912/Gaming-Laptops/?rss=1"
       - "https://www.dealnews.com/c49/Computers/Laptops/?rss=1"
+      - "https://www.dealnews.com/s321/B-H-Photo-Video/c49/Computers/Laptops/?rss=1"
 
   reddit:
-    # Uses optional REDDIT_CLIENT_ID + REDDIT_CLIENT_SECRET OAuth if set; falls back to public JSON/RSS.
+    # Works out of the box with zero API keys via Arctic Shift (optional OAuth if keys are set).
     enabled: true
     subreddits:
       - LaptopDeals
+      - GamingLaptopSales
+      - name: buildapcsales
+        title_filter: laptop
+        limit: 100
     limit: 60
     max_post_age_days: 14
 
