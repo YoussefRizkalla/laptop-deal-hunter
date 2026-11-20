@@ -116,6 +116,8 @@ providers:
       - "refurbished rtx 5080 laptop"
       - "best buy rtx laptop"
       - "micro center rtx laptop"
+      - "lenovo legion rtx"
+      - "lenovo outlet rtx"
 
   dealnews:
     enabled: true
