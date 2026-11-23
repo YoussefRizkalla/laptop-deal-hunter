@@ -15,33 +15,35 @@ specs:
   gpu_targets:
     RTX 5070:
       tier: 1
-      target_price_usd: 1250
+      target_price_usd: 1450
     RX 7900M:
       tier: 1
-      target_price_usd: 1250
+      target_price_usd: 1350
     RX 9070M:
       tier: 2
-      target_price_usd: 1350
+      target_price_usd: 1450
     RTX 4080:
       tier: 2
-      target_price_usd: 1500
+      target_price_usd: 1600
     RTX 5070 Ti:
       tier: 2
-      target_price_usd: 1550
-    RTX 5080:
-      tier: 3
-      target_price_usd: 2000
+      target_price_usd: 1700
     RTX 4090:
       tier: 3
-      target_price_usd: 2050
+      target_price_usd: 2300
+    RTX 5080:
+      tier: 3
+      target_price_usd: 2350
     RTX 5090:
       tier: 4
-      target_price_usd: 2650
+      target_price_usd: 3400
 
   # Optional exclusions (empty by default - all brands and screen sizes included).
   exclude_brands: []
   exclude_keywords:
     - "desktop"
+    - "gaming pc"
+    - "gamer supreme"
     - "pre-built"
     - "prebuilt"
     - "[prebuilt]"

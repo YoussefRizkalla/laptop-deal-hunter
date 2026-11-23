@@ -61,6 +61,18 @@ def test_lower_gpu_and_desktops_are_rejected() -> None:
     assert desktop.category == "rejected"
     assert "desktop" in (desktop.rejection_reason or "").lower()
 
+    gaming_pc = evaluate_listing(
+        RawListing(
+            provider="slickdeals",
+            external_id="s1b",
+            title="CyberPowerPC Gamer Supreme Gaming PC: Intel Ultra 9 285, RTX 5070 Ti, 32GB DDR5, 2TB - $2,479",
+            url="https://slickdeals.net/f/998",
+        ),
+        cfg,
+        store,
+    )
+    assert gaming_pc.category == "rejected"
+
 
 def test_16gb_deal_goes_to_near_miss_never_alerts_discord() -> None:
     cfg = _cfg()
@@ -80,12 +92,15 @@ def test_16gb_deal_goes_to_near_miss_never_alerts_discord() -> None:
 def test_unconfirmed_specs_alerts_only_when_extreme_outlier() -> None:
     cfg = _cfg()
     store = StateStore()
-    # RTX 5070 Ti target is $1,550; 85% extreme threshold is $1,317.50
+    target = cfg.get_gpu_target("RTX 5070 Ti").target_price_usd
+    moderate_price = int(target * 0.94)
+    extreme_price = int(target * 0.78)
+
     moderate = evaluate_listing(
         RawListing(
             provider="slickdeals",
             external_id="s2",
-            title="MSI Vector 16 RTX 5070 Ti Gaming Laptop - $1,450",
+            title=f"MSI Vector 16 RTX 5070 Ti Gaming Laptop - ${moderate_price:,}",
             url="https://slickdeals.net/f/100",
         ),
         cfg,
@@ -98,7 +113,7 @@ def test_unconfirmed_specs_alerts_only_when_extreme_outlier() -> None:
         RawListing(
             provider="slickdeals",
             external_id="s3",
-            title="MSI Vector 16 RTX 5070 Ti Gaming Laptop - $1,249",
+            title=f"MSI Vector 16 RTX 5070 Ti Gaming Laptop - ${extreme_price:,}",
             url="https://slickdeals.net/f/101",
         ),
         cfg,
@@ -112,26 +127,28 @@ def test_unconfirmed_specs_alerts_only_when_extreme_outlier() -> None:
 def test_open_box_uses_stricter_target_price() -> None:
     cfg = _cfg()
     store = StateStore()
-    # RTX 5070 target is $1,250; open_box effective target is $1,125 (0.90x)
+    base_target = cfg.get_gpu_target("RTX 5070").target_price_usd
+    ob_target = round(base_target * cfg.conditions.non_new_price_multiplier, 2)
+
     above_ob = evaluate_listing(
         RawListing(
             provider="bestbuy",
             external_id="b1",
-            title="[Open-Box Excellent] Acer Predator Helios 16 RTX 5070 32GB RAM 1TB SSD - $1,199",
+            title=f"[Open-Box Excellent] Acer Predator Helios 16 RTX 5070 32GB RAM 1TB SSD - ${int(ob_target + 50):,}",
             url="https://www.bestbuy.com/site/helios/1",
         ),
         cfg,
         store,
     )
     assert above_ob.category == "match"
-    assert above_ob.effective_target_usd == pytest.approx(1125.0)
+    assert above_ob.effective_target_usd == pytest.approx(ob_target)
     assert above_ob.should_alert is False
 
     below_ob = evaluate_listing(
         RawListing(
             provider="bestbuy",
             external_id="b2",
-            title="[Open-Box Excellent] Acer Predator Helios 16 RTX 5070 32GB RAM 1TB SSD - $1,099",
+            title=f"[Open-Box Excellent] Acer Predator Helios 16 RTX 5070 32GB RAM 1TB SSD - ${int(ob_target - 50):,}",
             url="https://www.bestbuy.com/site/helios/2",
         ),
         cfg,
@@ -207,24 +224,25 @@ def test_historical_low_trigger_fires_after_min_samples() -> None:
     cfg = _cfg()
     store = StateStore()
     base_time = datetime(2026, 11, 15, 12, 0, tzinfo=timezone.utc)
+    target = int(cfg.get_gpu_target("RTX 5080").target_price_usd)
 
-    # Seed 3 prior observations of RTX 5080 at $2,150+ (above $2,000 target)
-    for idx, price in enumerate((2250, 2200, 2150)):
+    # Seed 3 prior observations of RTX 5080 above target
+    for idx, price in enumerate((target + 350, target + 300, target + 250)):
         listing = RawListing(
             provider="reddit",
             external_id=f"seed{idx}",
-            title=f"[Best Buy] Razer Blade 16 RTX 5080 32GB RAM 2TB SSD - ${price}",
+            title=f"[Best Buy] Razer Blade 16 RTX 5080 32GB RAM 2TB SSD - ${price:,}",
             url=f"https://www.bestbuy.com/site/blade/{idx}",
         )
         ev = evaluate_listing(listing, cfg, store)
         store.record_run([ev], [], cfg, now=base_time + timedelta(days=idx))
 
-    # Now an RTX 5080 drops to $2,099 — still above $2,000 target, but a new tracked historical low!
+    # Now an RTX 5080 drops below the tracked low while still above target
     new_low = evaluate_listing(
         RawListing(
             provider="reddit",
             external_id="low1",
-            title="[Best Buy] Razer Blade 16 RTX 5080 32GB RAM 2TB SSD - $2,099",
+            title=f"[Best Buy] Razer Blade 16 RTX 5080 32GB RAM 2TB SSD - ${target + 150:,}",
             url="https://www.bestbuy.com/site/blade/newlow",
         ),
         cfg,
