@@ -10,7 +10,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1799.99,
       "model_key": "hp|rtx-5070|32gb|new",
       "near_miss_reasons": [],
@@ -54,7 +54,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1600.0,
       "model_key": "lenovo-legion-5i|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -100,7 +100,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 3999.99,
       "model_key": "lenovo-legion-pro-7i|rtx-5090|32gb|new",
       "near_miss_reasons": [],
@@ -144,7 +144,7 @@
       "image_url": null,
       "last_alerted_at": "2026-11-24T01:00:24.394277+00:00",
       "last_alerted_price_usd": 2999.99,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 2999.99,
       "model_key": "alienware|rtx-5080|32gb|new",
       "near_miss_reasons": [],
@@ -188,7 +188,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1879.0,
       "model_key": "lenovo-legion-5|rtx-5070|32gb|refurbished",
       "near_miss_reasons": [],
@@ -541,7 +541,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1480.0,
       "model_key": "acer-predator-helios-neo-16|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -587,7 +587,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 3999.99,
       "model_key": "alienware|rtx-5080|32gb|new",
       "near_miss_reasons": [],
@@ -810,7 +810,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 2499.99,
       "model_key": "acer-predator-helios-neo-16|rtx-5080|32gb|new",
       "near_miss_reasons": [],
@@ -854,7 +854,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1739.99,
       "model_key": "hp|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -1171,7 +1171,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 3106.26,
       "model_key": "lenovo-legion-pro-7-gen-10|rtx-5080|64gb|refurbished",
       "near_miss_reasons": [],
@@ -1357,7 +1357,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1499.99,
       "model_key": "gigabyte|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -1403,7 +1403,7 @@
       "image_url": "https://d.dlnws.com/64599/1795431475-product-trimmed.jpg?h=226&w=250",
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1299.0,
       "model_key": "hp|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -1678,7 +1678,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1599.99,
       "model_key": "acer|rtx-5070-ti|16gb|new",
       "near_miss_reasons": [
@@ -2322,7 +2322,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1549.99,
       "model_key": "asus-tuf-gaming-a16|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -2602,7 +2602,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1200.0,
       "model_key": "msi|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -2739,7 +2739,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1599.0,
       "model_key": "gigabyte|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -2785,7 +2785,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1299.0,
       "model_key": "msi|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -2969,7 +2969,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 3699.99,
       "model_key": "razer-blade-18|rtx-5080|32gb|new",
       "near_miss_reasons": [],
@@ -3002,6 +3002,52 @@
       "triggers": [],
       "upvotes": null,
       "url": "https://slickdeals.net/f/20358345-razer-blade-18-2026-18-uhd-240hz-fhd-440hz-intel-ultra-9-290hx-plus-rtx-5080-32gb-ddr5-1tb-ssd-3699-99?utm_source=rss&utm_content=def&utm_medium=RSS2"
+    },
+    "8689db0a57e3847b": {
+      "alert_priority": 8,
+      "category": "near_miss",
+      "current_price_usd": 1486.79,
+      "deal_id": "8689db0a57e3847b",
+      "effective_target_usd": 1450.0,
+      "first_seen_at": "2026-11-27T20:40:27.114292+00:00",
+      "image_url": null,
+      "last_alerted_at": null,
+      "last_alerted_price_usd": null,
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
+      "lowest_price_usd": 1486.79,
+      "model_key": "lenovo-legion-5-gen-10|rtx-5070|16gb|new",
+      "near_miss_reasons": [
+        "16GB RAM (< 32GB, upgradeable)"
+      ],
+      "price_history": [
+        {
+          "price_usd": 1486.79,
+          "ts": "2026-11-27T20:40:27.114292+00:00"
+        }
+      ],
+      "provider": "slickdeals",
+      "specs": {
+        "brand": "Lenovo",
+        "condition": "new",
+        "cpu": "Ryzen AI 7 350",
+        "discount_pct": null,
+        "gpu": "RTX 5070",
+        "model_name": "Lenovo Legion 5 Gen 10",
+        "msrp_usd": null,
+        "panel_type": "OLED",
+        "price_usd": 1486.79,
+        "ram_gb": 16,
+        "refresh_hz": 165,
+        "resolution": "QHD+",
+        "screen_inches": 15.1,
+        "ssd_gb": 1000,
+        "store": null
+      },
+      "store": "slickdeals",
+      "title": "Lenovo Legion 5 Gen 10: 15.1\" QHD+ OLED 165Hz, Ryzen AI 7 350, RTX 5070, 16GB DDR5, 1TB SSD $1486.79",
+      "triggers": [],
+      "upvotes": null,
+      "url": "https://slickdeals.net/f/20421048-lenovo-legion-5-gen-10-15-1-qhd-oled-165hz-ryzen-ai-7-350-rtx-5070-16gb-ddr5-1tb-ssd-1486-79?utm_source=rss&utm_content=def&utm_medium=RSS2"
     },
     "8a0ca8b851f9a696": {
       "alert_priority": 38,
@@ -3153,7 +3199,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1499.0,
       "model_key": "asus-tuf-gaming-a16|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -3200,7 +3246,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1549.99,
       "model_key": "gigabyte|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -3293,7 +3339,7 @@
       "image_url": "https://d.dlnws.com/64599/1795799176-msi-cyborg-max-15-6-144hz-gaming-laptop-intel-core-7-240h-nvidia-geforce-rtx-5070-16gb-ram-512gb-ssd.avif?h=250&w=250",
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1299.0,
       "model_key": "msi|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -3483,7 +3529,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 3400.0,
       "model_key": "lenovo-legion-7|rtx-5080|64gb|new",
       "near_miss_reasons": [],
@@ -3527,7 +3573,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 2294.0,
       "model_key": "msi-crosshair-a16|rtx-5070|32gb|new",
       "near_miss_reasons": [],
@@ -3661,7 +3707,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1599.99,
       "model_key": "acer|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -3707,7 +3753,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1299.0,
       "model_key": "msi|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -3935,7 +3981,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1299.0,
       "model_key": "hp|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -4027,7 +4073,7 @@
       "image_url": null,
       "last_alerted_at": "2026-11-27T16:20:18.135003+00:00",
       "last_alerted_price_usd": 2196.99,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 2196.99,
       "model_key": "gigabyte|rtx-5080|32gb|new",
       "near_miss_reasons": [],
@@ -4073,7 +4119,7 @@
       "image_url": null,
       "last_alerted_at": "2026-11-27T19:30:20.290160+00:00",
       "last_alerted_price_usd": 1309.0,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1309.0,
       "model_key": "acer|rtx-5070|32gb|refurbished",
       "near_miss_reasons": [],
@@ -4117,7 +4163,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1261.99,
       "model_key": "asus-rog-zephyrus-g16|rtx-5070|16gb|open_box",
       "near_miss_reasons": [
@@ -4163,7 +4209,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 3819.99,
       "model_key": "asus-rog-zephyrus-g16|rtx-5090|32gb|new",
       "near_miss_reasons": [],
@@ -4432,7 +4478,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1599.0,
       "model_key": "msi-vector-16|rtx-5070-ti|16gb|new",
       "near_miss_reasons": [
@@ -4571,7 +4617,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1299.99,
       "model_key": "gigabyte|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -4753,7 +4799,7 @@
       "image_url": null,
       "last_alerted_at": "2026-11-20T20:10:18.853416+00:00",
       "last_alerted_price_usd": 1679.0,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1679.0,
       "model_key": "gigabyte|rtx-5070|32gb|new",
       "near_miss_reasons": [],
@@ -4965,6 +5011,50 @@
       "upvotes": 1,
       "url": "https://progamerstech.com/product/msi-raider-a16-hx-16-240hz-qhd-gaming-laptop-amd-ryzen-9-8940hx-nvidia-geforce-rtx-5080-32gb-ddr5-2tb-nvme-ssd-type-c-wi-fi-7-win-11-home-core-black-b8wi-023us/"
     },
+    "f4c95f30f924c4d3": {
+      "alert_priority": 11,
+      "category": "match",
+      "current_price_usd": 2544.29,
+      "deal_id": "f4c95f30f924c4d3",
+      "effective_target_usd": 1700.0,
+      "first_seen_at": "2026-11-27T20:40:27.114292+00:00",
+      "image_url": null,
+      "last_alerted_at": null,
+      "last_alerted_price_usd": null,
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
+      "lowest_price_usd": 2544.29,
+      "model_key": "lenovo-legion-pro-7-gen-10|rtx-5070-ti|32gb|new",
+      "near_miss_reasons": [],
+      "price_history": [
+        {
+          "price_usd": 2544.29,
+          "ts": "2026-11-27T20:40:27.114292+00:00"
+        }
+      ],
+      "provider": "slickdeals",
+      "specs": {
+        "brand": "Lenovo",
+        "condition": "new",
+        "cpu": "Ryzen 9 9955HX",
+        "discount_pct": null,
+        "gpu": "RTX 5070 Ti",
+        "model_name": "Lenovo Legion Pro 7 Gen 10",
+        "msrp_usd": null,
+        "panel_type": "OLED",
+        "price_usd": 2544.29,
+        "ram_gb": 32,
+        "refresh_hz": 240,
+        "resolution": "QHD+",
+        "screen_inches": 16.0,
+        "ssd_gb": 2000,
+        "store": null
+      },
+      "store": "slickdeals",
+      "title": "Lenovo Legion Pro 7 Gen 10: 16\" QHD+ 240Hz OLED, Ryzen 9 9955HX, RTX 5070 Ti, 32GB DDR5, 2TB SSD $2544.29",
+      "triggers": [],
+      "upvotes": null,
+      "url": "https://slickdeals.net/f/20421003-lenovo-legion-pro-7-gen-10-16-qhd-240hz-oled-ryzen-9-9955hx-rtx-5070-ti-32gb-ddr5-2tb-ssd-2544-29?utm_source=rss&utm_content=def&utm_medium=RSS2"
+    },
     "fa40669e0eaeb57c": {
       "alert_priority": 6,
       "category": "near_miss",
@@ -5066,7 +5156,7 @@
       "image_url": null,
       "last_alerted_at": null,
       "last_alerted_price_usd": null,
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1470.59,
       "model_key": "lenovo-legion-pro-5i-gen-10|rtx-5070|16gb|new",
       "near_miss_reasons": [
@@ -5212,6 +5302,12 @@
         "median_price_usd": 2479.99,
         "min_price_usd": 2479.99,
         "sample_count": 1
+      },
+      {
+        "date": "2026-11-27",
+        "median_price_usd": 2544.29,
+        "min_price_usd": 2544.29,
+        "sample_count": 1
       }
     ],
     "RTX 5080": [
@@ -5329,8 +5425,8 @@
   },
   "last_provider_results": [
     {
-      "listing_count": 126,
-      "message": "126 recent unique listings across 2 mode(s) x 13 queries",
+      "listing_count": 122,
+      "message": "122 recent unique listings across 2 mode(s) x 13 queries",
       "provider": "slickdeals",
       "status": "ok"
     },
@@ -5341,10 +5437,10 @@
       "status": "ok"
     },
     {
-      "listing_count": 77,
-      "message": "r/LaptopDeals: 57 via Arctic Shift; r/GamingLaptopSales: 53 via Arctic Shift; r/buildapcsales[title~laptop]: 100 via Arctic Shift",
+      "listing_count": 0,
+      "message": "r/LaptopDeals Arctic Shift HTTP 422; r/LaptopDeals JSON HTTP 403, trying RSS; r/LaptopDeals RSS error (Client error '404 Not Found' for url 'https://www.reddit.com/r/LaptopDeals/new.rss?limit=60'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404); r/GamingLaptopSales Arctic Shift HTTP 422; r/GamingLaptopSales JSON HTTP 403, trying RSS; r/GamingLaptopSales RSS error (Client error '429 Too Many Requests' for url 'https://www.reddit.com/r/GamingLaptopSales/new.rss?limit=60'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429); r/buildapcsales[title~laptop] Arctic Shift HTTP 422; r/buildapcsales[title~laptop] JSON HTTP 403, trying RSS; r/buildapcsales[title~laptop] RSS error (Client error '429 Too Many Requests' for url 'https://www.reddit.com/r/buildapcsales/new.rss?limit=100'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429)",
       "provider": "reddit",
-      "status": "ok"
+      "status": "error"
     },
     {
       "listing_count": 0,
@@ -5359,7 +5455,7 @@
       "status": "skipped"
     }
   ],
-  "last_run_at": "2026-11-27T20:30:23.596725+00:00",
+  "last_run_at": "2026-11-27T20:40:27.114292+00:00",
   "model_lows": {
     "acer-predator-helios-neo-16s|rtx-5070-ti|32gb|refurbished": {
       "last_seen_at": "2026-11-24T19:10:20.220374+00:00",
@@ -5372,9 +5468,9 @@
       "samples": 22
     },
     "acer-predator-helios-neo-16|rtx-5080|32gb|new": {
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 2499.99,
-      "samples": 421
+      "samples": 422
     },
     "acer|rtx-5070-ti|32gb|refurbished": {
       "last_seen_at": "2026-11-27T00:40:18.151636+00:00",
@@ -5382,9 +5478,9 @@
       "samples": 171
     },
     "acer|rtx-5070|32gb|refurbished": {
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1309.0,
-      "samples": 11
+      "samples": 12
     },
     "alienware|rtx-5070|32gb|new": {
       "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
@@ -5392,14 +5488,14 @@
       "samples": 444
     },
     "alienware|rtx-5080|32gb|new": {
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 2999.99,
-      "samples": 722
+      "samples": 724
     },
     "asus-rog-zephyrus-g16|rtx-5090|32gb|new": {
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 3819.99,
-      "samples": 421
+      "samples": 422
     },
     "asus-strix-scar-16|rtx-5090|32gb|new": {
       "last_seen_at": "2026-11-26T09:20:21.045470+00:00",
@@ -5417,14 +5513,14 @@
       "samples": 33
     },
     "gigabyte|rtx-5070|32gb|new": {
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1679.0,
-      "samples": 471
+      "samples": 472
     },
     "gigabyte|rtx-5080|32gb|new": {
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 2196.99,
-      "samples": 15
+      "samples": 16
     },
     "hp-omen-15|rtx-5070|32gb|new": {
       "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
@@ -5432,19 +5528,24 @@
       "samples": 32
     },
     "hp|rtx-5070|32gb|new": {
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1799.99,
-      "samples": 393
+      "samples": 394
     },
     "lenovo-legion-5|rtx-5070|32gb|refurbished": {
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 1879.0,
-      "samples": 42
+      "samples": 43
     },
     "lenovo-legion-7|rtx-5080|64gb|new": {
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 3400.0,
-      "samples": 106
+      "samples": 107
+    },
+    "lenovo-legion-pro-7-gen-10|rtx-5070-ti|32gb|new": {
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
+      "lowest_price_usd": 2544.29,
+      "samples": 1
     },
     "lenovo-legion-pro-7-gen-10|rtx-5080|32gb|new": {
       "last_seen_at": "2026-11-23T07:00:29.167922+00:00",
@@ -5452,14 +5553,14 @@
       "samples": 120
     },
     "lenovo-legion-pro-7-gen-10|rtx-5080|64gb|refurbished": {
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 3106.26,
-      "samples": 18
+      "samples": 19
     },
     "lenovo-legion-pro-7i|rtx-5090|32gb|new": {
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 3999.99,
-      "samples": 246
+      "samples": 247
     },
     "lenovo-legion-pro-7|rtx-5080|32gb|new": {
       "last_seen_at": "2026-11-25T23:00:29.982065+00:00",
@@ -5467,9 +5568,9 @@
       "samples": 293
     },
     "msi-crosshair-a16|rtx-5070|32gb|new": {
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 2294.0,
-      "samples": 421
+      "samples": 422
     },
     "msi-raider-a16|rtx-5080|32gb|new": {
       "last_seen_at": "2026-11-27T10:40:21.208213+00:00",
@@ -5487,9 +5588,9 @@
       "samples": 81
     },
     "razer-blade-18|rtx-5080|32gb|new": {
-      "last_seen_at": "2026-11-27T20:30:23.596725+00:00",
+      "last_seen_at": "2026-11-27T20:40:27.114292+00:00",
       "lowest_price_usd": 3699.99,
-      "samples": 384
+      "samples": 385
     },
     "unknown|rtx-5070-ti|32gb|new": {
       "last_seen_at": "2026-11-23T21:10:28.132939+00:00",
@@ -5502,6 +5603,6 @@
       "samples": 141
     }
   },
-  "runs_count": 421,
+  "runs_count": 422,
   "version": 1
 }
